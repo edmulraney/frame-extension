@@ -164,7 +164,7 @@ chrome.webRequest.onBeforeRequest.addListener(
       console.log({ensNameHash})
 
       const resolverAddress = await getENSResolver(provider, ensNameHash);
-      console.log({ensresolverAddressNameHash})
+      console.log({resolverAddress})
       
       const contentHash = await getENSContentHash(provider, ensNameHash, resolverAddress);
       console.log({contentHash})
