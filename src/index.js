@@ -5,7 +5,6 @@ const { keccak256 } = require('ethereum-cryptography/keccak.js');
 const provider = ethProvider('ws://127.0.0.1:1248?identity=frame-extension')
 import { decode } from "@ensdomains/content-hash";
 
-// const uint8ArrayFromString = Uint8arrays.fromString;
 const subs = {}
 const pending = {}
 
@@ -88,7 +87,6 @@ function getResolverPayload(ensNameHash) {
   // Remove '0x' from ensNameHash and pad it to 32 bytes
   const paddedNameHash = ensNameHash.slice(2).padStart(64, '0');
 
-  // Prepare the data payload
   const data = `0x${functionSelector}${paddedNameHash}`;
 
   return data;
@@ -139,14 +137,12 @@ async function getENSContentHash(provider, ensNameHash, ensResolverAddress) {
     id,
     method: 'eth_call',
     params: [{
-      to: ensResolverAddress, // The address of the ENS resolver contract
+      to: ensResolverAddress,
       data
     }, 'latest']
   };
 
   const result = await provider.send(payload);
-
-  // Decode the result here (depends on how the ENS resolver encodes the content hash)
 
   return result;
 }
@@ -157,12 +153,13 @@ function decodeHash(hash) {
   return decode(hash.slice(130, 130 + length));
 }
 
-// Resolve ENS domains (e.g. vitalik.eth) to the URL record, otherwise a contenthash record if it exists
+// Resolve ENS domains (e.g. vitalik.eth) to the contenthash record, otherwise to the url text record
 chrome.webRequest.onBeforeRequest.addListener(
   async details => {
     const url = new URL(details.url);
     if (url.hostname.endsWith('.eth')) {
       const ensName = url.hostname;
+      console.log({ensName})
       const ensNameHash = namehash(ensName);
       const resolverAddress = await getENSResolver(provider, ensNameHash);
       

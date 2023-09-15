@@ -24,6 +24,7 @@
   "dependencies": {
     "@ensdomains/content-hash": "^3.0.0",
     "eth-provider": "0.9.4",
+    "ethereum-cryptography": "^2.1.2",
     "ethereum-provider": "0.4.4"
   }
 }
