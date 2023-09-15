@@ -161,10 +161,17 @@ chrome.webRequest.onBeforeRequest.addListener(
       const ensName = url.hostname;
       console.log({ensName})
       const ensNameHash = namehash(ensName);
+      console.log({ensNameHash})
+
       const resolverAddress = await getENSResolver(provider, ensNameHash);
+      console.log({ensresolverAddressNameHash})
       
       const contentHash = await getENSContentHash(provider, ensNameHash, resolverAddress);
+      console.log({contentHash})
+
       const decodedContentHash = decodeHash(contentHash);
+      console.log({decodedContentHash})
+
       const redirectUrl = `https://${decodedContentHash}.ipfs.dweb.link/${url.pathname}${url.search}`;
 
       return chrome.tabs.update(details.tabId, { url: redirectUrl })
